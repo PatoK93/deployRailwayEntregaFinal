@@ -2,7 +2,7 @@
 
 -REGISTRO/LOGIN-
 
-curl --location --request POST 'https://terceraentreganodejsrailway-production.up.railway.app/api/usuario/signup' \
+curl --location --request POST 'https://deployrailwayentregafinal-production.up.railway.app/api/usuario/signup' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "usernname": "testMail@mail.com",
@@ -15,22 +15,22 @@ curl --location --request POST 'https://terceraentreganodejsrailway-production.u
 "admin": "true"
 }'
 
-curl --location --request POST 'https://terceraentreganodejsrailway-production.up.railway.app/api/usuario/login' \
+curl --location --request POST 'https://deployrailwayentregafinal-production.up.railway.app/api/usuario/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "usernname": "testMail@mail.com",
 "password": "1234"
 }'
 
-curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/usuario/logout'
+curl --location --request GET 'https://deployrailwayentregafinal-production.up.railway.app/api/usuario/logout'
 
 -PRODUCTOS-
 
-curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto'
+curl --location --request GET 'https://deployrailwayentregafinal-production.up.railway.app/api/producto'
 
-curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto/:id'
+curl --location --request GET 'https://deployrailwayentregafinal-production.up.railway.app/api/producto/:id'
 
-curl --location --request POST 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto' \
+curl --location --request POST 'https://deployrailwayentregafinal-production.up.railway.app/api/producto' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "title": "testTitle",
@@ -41,7 +41,7 @@ curl --location --request POST 'https://terceraentreganodejsrailway-production.u
 "stock": "100"
 }'
 
-curl --location --request PUT 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto/:id' \
+curl --location --request PUT 'https://deployrailwayentregafinal-production.up.railway.app/api/producto/:id' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "title": "testTitle",
@@ -52,29 +52,29 @@ curl --location --request PUT 'https://terceraentreganodejsrailway-production.up
 "stock": "200"
 }'
 
-curl --location --request DELETE 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto/:id'
+curl --location --request DELETE 'https://deployrailwayentregafinal-production.up.railway.app/api/producto/:id'
 
-curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto/categoria/:categoria'
+curl --location --request GET 'https://deployrailwayentregafinal-production.up.railway.app/api/producto/categoria/:categoria'
 
 -CARRITO-
 
-curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/carrito/:id/productos'
+curl --location --request GET 'https://deployrailwayentregafinal-production.up.railway.app/api/carrito/:id/productos'
 
-curl --location --request POST 'https://terceraentreganodejsrailway-production.up.railway.app/api/carrito/'
+curl --location --request POST 'https://deployrailwayentregafinal-production.up.railway.app/api/carrito/'
 
-curl --location --request POST 'https://terceraentreganodejsrailway-production.up.railway.app/api/carrito/:id/productos' \
+curl --location --request POST 'https://deployrailwayentregafinal-production.up.railway.app/api/carrito/:id/productos' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "id": "1"
 }'
 
-curl --location --request DELETE 'https://terceraentreganodejsrailway-production.up.railway.app/api/carrito/:id'
+curl --location --request DELETE 'https://deployrailwayentregafinal-production.up.railway.app/api/carrito/:id'
 
-curl --location --request DELETE 'https://terceraentreganodejsrailway-production.up.railway.app/api/carrito/:id/productos/:id_prod'
+curl --location --request DELETE 'https://deployrailwayentregafinal-production.up.railway.app/api/carrito/:id/productos/:id_prod'
 
-curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/carrito/buy/:id'
+curl --location --request GET 'https://deployrailwayentregafinal-production.up.railway.app/api/carrito/buy/:id'
 
 -IMAGEN-
 
-curl --location --request POST 'https://terceraentreganodejsrailway-production.up.railway.app/api/image' \
+curl --location --request POST 'https://deployrailwayentregafinal-production.up.railway.app/api/image' \
 --form 'iamge=@"/path/to/file"'

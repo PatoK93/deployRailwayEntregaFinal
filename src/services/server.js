@@ -14,7 +14,7 @@ const app = express();
 
 const specs = swaggerJSDoc(info);
 
-app.use("../docs", swaggerUI.serve, swaggerUI.setup(specs));
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
