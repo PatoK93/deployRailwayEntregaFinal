@@ -14,30 +14,9 @@ export default class CartsRepository {
     await this.dao.createCart(id, timestamp, username, name, products, closed);
   }
 
-  async addProductsToCart(id, products) {
-    const newProductInCart = await this.dao.addProductsToCart(id, products);
+  async addProductsToCart(_id, products) {
+    const newProductInCart = await this.dao.addProductsToCart(_id, products);
     return newProductInCart;
-  }
-
-  async modifiedStockProductById(
-    id,
-    title,
-    description,
-    code,
-    photo,
-    value,
-    stock
-  ) {
-    const productUpdatedStock = await this.dao.modifiedStockProductById(
-      id,
-      title,
-      description,
-      code,
-      photo,
-      value,
-      stock
-    );
-    return productUpdatedStock;
   }
 
   async deleteCartById(id) {

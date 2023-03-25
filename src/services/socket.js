@@ -1,12 +1,6 @@
 import { Server } from "socket.io";
 import { ChatModel } from "../models/chat.model.js";
 
-const productData = {
-  title: undefined,
-  value: undefined,
-  thumbnail: undefined,
-};
-
 let io;
 
 const initWsServer = (server) => {

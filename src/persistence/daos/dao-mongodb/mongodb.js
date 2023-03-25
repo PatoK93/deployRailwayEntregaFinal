@@ -117,40 +117,19 @@ export default class DaoMongoDB {
       products,
       closed,
     });
-    return document;
   }
 
-  async addProductsToCart(id, products) {
+  async addProductsToCart(_id, products) {
     let document = await this.cartCollection.findByIdAndUpdate(
-      id,
+      _id,
       { products },
       { new: true }
     );
     return document;
   }
 
-  async modifiedStockProductById(
-    id,
-    title,
-    description,
-    code,
-    photo,
-    value,
-    stock
-  ) {
-    let document = await this.cartCollection.findByIdAndUpdate(id, {
-      tile: title,
-      description: description,
-      code: code,
-      photo: photo,
-      value: value,
-      stock: stock,
-    });
-    return document;
-  }
-
   async deleteCartById(id) {
-    await this.cartCollection.findByIdAndDelete({ id: id });
+    await this.cartCollection.findByIdAndDelete(id);
   }
 
   async findProductInCart(cart, productId) {
@@ -159,7 +138,7 @@ export default class DaoMongoDB {
   }
 
   async finishOrder(cart) {
-    let finishedCart = await this.cartCollection.findByIdAndUpdate(cart.id, {
+    let finishedCart = await this.cartCollection.findByIdAndUpdate(cart._id, {
       id: cart.id,
       timestamp: cart.timestamp,
       username: cart.username,
@@ -175,7 +154,7 @@ export default class DaoMongoDB {
       .findOne()
       .sort({ id: -1 })
       .limit(1);
-    return lastDocument;
+    return lastDocument.id;
   }
 
   async getProductsByCategorie(categorie) {

@@ -4,7 +4,7 @@ const cartsRepository = new CartsRepository();
 
 export async function getProductsInCart(id) {
   const productsInCart = await cartsRepository.getProductsInCart(id);
-  return products;
+  return productsInCart;
 }
 
 export async function createCart(
@@ -25,33 +25,12 @@ export async function createCart(
   );
 }
 
-export async function addProductsToCart(id, products) {
+export async function addProductsToCart(_id, products) {
   const productAddedToCart = await cartsRepository.addProductsToCart(
-    id,
+    _id,
     products
   );
   return productAddedToCart;
-}
-
-export async function modifiedStockProductById(
-  id,
-  title,
-  description,
-  code,
-  photo,
-  value,
-  stock
-) {
-  const productUpdatedInCart = await cartsRepository.updateProductById(
-    id,
-    title,
-    description,
-    code,
-    photo,
-    value,
-    stock
-  );
-  return productUpdatedInCart;
 }
 
 export async function deleteCartById(id) {
@@ -72,6 +51,6 @@ export async function finishOrder(cart) {
 }
 
 export async function findLastCartId() {
-  let lastId = await cartsRepository.findLastProductId();
+  let lastId = await cartsRepository.findLastCartId();
   return lastId;
 }

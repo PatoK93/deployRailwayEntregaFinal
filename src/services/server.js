@@ -6,8 +6,15 @@ import passport from "passport";
 import { loginFunc, signUpFunc } from "../services/auth.js";
 import MongoStore from "connect-mongo";
 import Config from "../config/index.js";
+import { info } from "../docs/info.js";
+import swaggerUI from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
 
 const app = express();
+
+const specs = swaggerJSDoc(info);
+
+app.use("../docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -6,13 +6,15 @@ import {
   getProductsInCart,
   createCart,
   addProductsToCart,
-  modifiedStockProductById,
   deleteCartById,
   findProductInCart,
   finishOrder,
   findLastCartId,
 } from "../services/cart.service.js";
-import { getProductById } from "../services/product.service.js";
+import {
+  getProductById,
+  updateProductById,
+} from "../services/product.service.js";
 
 let username;
 let name;
@@ -55,8 +57,7 @@ export const getProductsInCartController = async (req, res) => {
 export const createCartController = async (req, res) => {
   try {
     let lastId = await findLastCartId();
-    let newId = lastId + 1;
-    let id = newId;
+    let id = lastId + 1;
     let timestamp = formatTimeStamp();
     let products = [];
     let username = actualUser.username;
@@ -66,7 +67,7 @@ export const createCartController = async (req, res) => {
     await createCart(id, timestamp, username, name, products, closed);
 
     return res.status(201).json({
-      mensaje: `carrito ${newId} creado con exito`,
+      mensaje: `carrito ${id} creado con exito`,
     });
   } catch (error) {
     return res.status(500).json({
@@ -130,16 +131,16 @@ export const addProductsToCartController = async (req, res) => {
       let products = cart.products;
       products.push(product);
 
-      const productAddedToCart = await addProductsToCart(cartId, products);
+      const productAddedToCart = await addProductsToCart(cart._id, products);
 
-      const productUpdated = await modifiedStockProductById(
+      const productUpdated = await updateProductById(
         productId,
-        title,
-        description,
-        code,
-        photo,
-        value,
-        stock - 1
+        product.title,
+        product.description,
+        product.code,
+        product.photo,
+        product.value,
+        product.stock - 1
       );
 
       return res.status(201).json({
@@ -182,7 +183,7 @@ export const deleteCartByIdController = async (req, res) => {
           });
         }
 
-        await deleteCartById(id);
+        await deleteCartById(cart._id);
         return res.status(200).json({
           mensaje: "carrito eliminado con exito",
         });
@@ -208,7 +209,7 @@ export const deleteProductInCartByIdController = async (req, res) => {
     const cartId = parseInt(req.params.id);
     const productId = parseInt(req.params.id_prod);
 
-    const cart = await getProductsInCart(id);
+    const cart = await getProductsInCart(cartId);
 
     if (!cart) {
       return res.status(404).json({
@@ -228,7 +229,8 @@ export const deleteProductInCartByIdController = async (req, res) => {
       });
     }
 
-    let productExists = findProductInCart(cart, productId);
+    let productExists = await findProductInCart(cart, productId);
+    console.log(productExists);
 
     if (!productExists) {
       return res.status(404).json({
@@ -237,22 +239,23 @@ export const deleteProductInCartByIdController = async (req, res) => {
     } else {
       let products = cart.products;
       const filteredProducts = products.filter((item) => item.id !== productId);
-      products = filteredProducts;
+      let initialQ = products.length;
+      let finalQ = filteredProducts.length;
+      let diff = initialQ - finalQ;
 
-      let productsFull = cart.products.length;
-      let productsCut = products.length;
-      let diff = productsFull - productsCut;
+      const productAddedToCart = await addProductsToCart(
+        cart._id,
+        filteredProducts
+      );
 
-      const productAddedToCart = await addProductsToCart(cartId, products);
-
-      const productUpdated = await modifiedStockProductById(
+      const productUpdated = await updateProductById(
         productId,
-        title,
-        description,
-        code,
-        photo,
-        value,
-        stock + diff
+        productExists.title,
+        productExists.description,
+        productExists.code,
+        productExists.photo,
+        productExists.value,
+        productExists.stock + diff
       );
 
       return res.status(201).json({
@@ -284,7 +287,7 @@ export const finishOrderController = async (req, res) => {
 
     const cartId = parseInt(req.params.id);
 
-    let cart = await getProductsInCart(id);
+    let cart = await getProductsInCart(cartId);
 
     if (!cart) {
       return res.status(404).json({

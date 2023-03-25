@@ -54,6 +54,8 @@ curl --location --request PUT 'https://terceraentreganodejsrailway-production.up
 
 curl --location --request DELETE 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto/:id'
 
+curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/producto/categoria/:categoria'
+
 -CARRITO-
 
 curl --location --request GET 'https://terceraentreganodejsrailway-production.up.railway.app/api/carrito/:id/productos'

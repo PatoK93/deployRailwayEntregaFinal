@@ -80,28 +80,8 @@ export async function createCart(
   await dao.createCart(id, timestamp, username, name, products, closed);
 }
 
-export async function addProductsToCart(id, products) {
-  return await dao.addProductsToCart(id, products);
-}
-
-export async function modifiedStockProductById(
-  id,
-  title,
-  description,
-  code,
-  photo,
-  value,
-  stock
-) {
-  return await dao.modifiedStockProductById(
-    id,
-    title,
-    description,
-    code,
-    photo,
-    value,
-    stock
-  );
+export async function addProductsToCart(_id, products) {
+  return await dao.addProductsToCart(_id, products);
 }
 
 export async function deleteCartById(id) {
