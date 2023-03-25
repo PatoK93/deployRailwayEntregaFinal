@@ -5,6 +5,7 @@ import {
   updateProductById,
   deleteProductById,
   findLastProductId,
+  getProductsByCode,
 } from "../services/product.service.js";
 import { validationResult } from "express-validator";
 import { formatTimeStamp } from "../utils/format.js";
@@ -64,8 +65,7 @@ export const createProductController = async (req, res) => {
       const { title, description, code, photo, value, stock } = req.body;
 
       let lastId = await findLastProductId();
-      let newId = lastId + 1;
-      let id = newId;
+      let id = lastId + 1;
       let timestamp = formatTimeStamp();
 
       let newProduct = await createProduct(
@@ -109,7 +109,7 @@ export const updateProductByIdController = async (req, res) => {
         });
       }
 
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const { title, description, code, photo, value, stock } = req.body;
 
       let product = await getProductById(id);
@@ -155,7 +155,7 @@ export const deleteProductByIdController = async (req, res, next) => {
           error: "Tiene que enviar un id válido!",
         });
       }
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
 
       let product = await getProductById(id);
 
@@ -184,14 +184,14 @@ export const deleteProductByIdController = async (req, res, next) => {
 
 export const productsByCodeController = async (req, res, next) => {
   try {
-    if (req.params.categoria.isEmpty()) {
+    if (!req.params.categoria) {
       return res.status(400).json({
         error: "Tiene que enviar una categoria válida!",
       });
     }
     let products = await getProductsByCode(req.params.categoria);
 
-    if (!products) {
+    if (products.length == 0) {
       return res.status(404).json({
         mensaje: "No hay productos para dicha categoria!",
       });

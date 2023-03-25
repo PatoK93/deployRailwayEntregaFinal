@@ -41,6 +41,6 @@ router.put(
 
 router.delete("/:id", isLoggedIn, deleteProductByIdController);
 
-router.delete("/:categoria", isLoggedIn, productsByCodeController);
+router.get("/categoria/:categoria", isLoggedIn, productsByCodeController);
 
 export default router;

@@ -11,7 +11,7 @@ export default class DaoMongoDB {
     this.productCollection = mongoose.model(productCollection, productSchema);
     this.cartCollection = mongoose.model(cartCollection, cartSchema);
     if (!DaoMongoDB.instance) {
-      this.initDB = mongoose.connect(process.env.MONGOURL, () =>
+      this.initDB = mongoose.connect(process.env.MONGO_ATLAS_SRV, () =>
         console.log("Connected to MongoDB")
       );
       DaoMongoDB.instance = this;
@@ -35,7 +35,7 @@ export default class DaoMongoDB {
     }
   }
 
-  async getProductById() {
+  async getProductById(id) {
     try {
       const doc = await this.productCollection.findOne({ id: id });
       return doc;
@@ -44,21 +44,39 @@ export default class DaoMongoDB {
     }
   }
 
-  async createProduct(doc) {
+  async createProduct(
+    id,
+    timestamp,
+    title,
+    description,
+    code,
+    photo,
+    value,
+    stock
+  ) {
     try {
-      const document = await this.productCollection.create({ doc });
+      const document = await this.productCollection.create({
+        id,
+        timestamp,
+        title,
+        description,
+        code,
+        photo,
+        value,
+        stock,
+      });
       return document;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async updateProductById(doc) {
+  async updateProductById(id, title, description, code, photo, value, stock) {
     try {
-      const document = await this.productCollection.findOne({ doc });
+      const document = await this.productCollection.findOne({ id: id });
       const productUpdated = await this.productCollection.findByIdAndUpdate(
         document._id,
-        { doc },
+        { title, description, code, photo, value, stock },
         { new: true }
       );
       return productUpdated;
@@ -161,7 +179,7 @@ export default class DaoMongoDB {
   }
 
   async getProductsByCategorie(categorie) {
-    let products = await this.productCollection.find({ categorie: categorie });
+    let products = await this.productCollection.find({ code: categorie });
     return products;
   }
 }

@@ -22,7 +22,7 @@ export async function createProduct(
   value,
   stock
 ) {
-  const newProduct = await productsRepository.createProduct({
+  const newProduct = await productsRepository.createProduct(
     id,
     timestamp,
     title,
@@ -30,8 +30,8 @@ export async function createProduct(
     code,
     photo,
     value,
-    stock,
-  });
+    stock
+  );
   return newProduct;
 }
 
@@ -44,15 +44,15 @@ export async function updateProductById(
   value,
   stock
 ) {
-  const productUpdated = await productsRepository.updateProductById({
+  const productUpdated = await productsRepository.updateProductById(
     id,
     title,
     description,
     code,
     photo,
     value,
-    stock,
-  });
+    stock
+  );
   return productUpdated;
 }
 

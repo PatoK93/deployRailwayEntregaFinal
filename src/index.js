@@ -1,14 +1,12 @@
 import "dotenv/config";
 import server from "./services/server.js";
-import { initWsServer, getWsServer } from "./services/socket";
+import { initWsServer } from "./services/socket.js";
 
 const init = async () => {
   const port = process.env.PORT || 8080;
   initWsServer(server);
   server.listen(port, () =>
-    console.log(
-      `Servidor express escuchando en el puerto ${port} - PID WORKER ${process.pid}`
-    )
+    console.log(`Servidor express escuchando en el puerto ${port}`)
   );
 
   server.on("error", (error) => {

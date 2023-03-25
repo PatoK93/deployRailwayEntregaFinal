@@ -1,8 +1,7 @@
-import { getAllProducts } from "../services/chat.service.js";
 import { validationResult } from "express-validator";
 import { formatTimeStamp } from "../utils/format.js";
 import { actualUser } from "../services/auth.js";
-import socket from "socket.io";
+import { Socket } from "socket.io";
 import { ChatModel } from "../models/chat.model.js";
 
 let isAdmin;
@@ -18,7 +17,7 @@ export const SendMessageUserController = async (req, res) => {
       const { bodyMessage } = req.body;
       let timestamp = formatTimeStamp();
       let type = "user";
-      socket.emit(
+      Socket.emit(
         "sendMesssage",
         actualUser.username,
         type,
@@ -60,7 +59,7 @@ export const SendMessageAdminController = async (req, res) => {
       const email = req.params.email;
       let timestamp = formatTimeStamp();
       let type = "admin";
-      socket.emit(
+      Socket.emit(
         "sendMesssage",
         actualUser.username,
         type,
@@ -84,7 +83,7 @@ export const SendMessageAdminController = async (req, res) => {
   }
 };
 
-export const messagesSendedController = async (req, res) => {
+export const MessagesSendedController = async (req, res) => {
   try {
     if (!req.params.email) {
       return res.status(400).json({

@@ -18,13 +18,39 @@ export default class ProductsRepository {
     return prodDTO;
   }
 
-  async createProduct(prod) {
-    const newProduct = await this.dao.createProduct(prod);
+  async createProduct(
+    id,
+    timestamp,
+    title,
+    description,
+    code,
+    photo,
+    value,
+    stock
+  ) {
+    const newProduct = await this.dao.createProduct(
+      id,
+      timestamp,
+      title,
+      description,
+      code,
+      photo,
+      value,
+      stock
+    );
     return newProduct;
   }
 
-  async updateProductById(prod) {
-    const productUpdated = await this.dao.updateProductById(prod);
+  async updateProductById(id, title, description, code, photo, value, stock) {
+    const productUpdated = await this.dao.updateProductById(
+      id,
+      title,
+      description,
+      code,
+      photo,
+      value,
+      stock
+    );
     return productUpdated;
   }
 

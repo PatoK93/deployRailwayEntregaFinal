@@ -1,9 +1,10 @@
 import DaoMongoDB from "./dao-mongodb/mongodb.js";
-import { productsSchema } from "./dao-mongodb/schema/products.schema.js";
-import { cartsSchema } from "./dao-mongodb/schema/carts.schema.js";
-import { usersSchema } from "./dao-mongodb/schema/users.schema.js";
+import { productSchema } from "./dao-mongodb/schema/products.schema.js";
+import { cartSchema } from "./dao-mongodb/schema/carts.schema.js";
 
-dao = new DaoMongoDB("productos", "carritos", productsSchema, cartsSchema);
+let dao;
+
+dao = new DaoMongoDB("productos", "carritos", productSchema, cartSchema);
 dao.initMongoDB();
 
 export async function getAllProducts() {
@@ -14,12 +15,46 @@ export async function getProductById(id) {
   return await dao.getProductById(id);
 }
 
-export async function createProduct(obj) {
-  return await dao.createProduct(obj);
+export async function createProduct(
+  id,
+  timestamp,
+  title,
+  description,
+  code,
+  photo,
+  value,
+  stock
+) {
+  return await dao.createProduct(
+    id,
+    timestamp,
+    title,
+    description,
+    code,
+    photo,
+    value,
+    stock
+  );
 }
 
-export async function updateProductById(prod) {
-  return await dao.updateProductById(prod);
+export async function updateProductById(
+  id,
+  title,
+  description,
+  code,
+  photo,
+  value,
+  stock
+) {
+  return await dao.updateProductById(
+    id,
+    title,
+    description,
+    code,
+    photo,
+    value,
+    stock
+  );
 }
 
 export async function deleteProdcutById(id) {
@@ -27,7 +62,7 @@ export async function deleteProdcutById(id) {
 }
 
 export async function findLastProductId() {
-  await dao.findLastProductId();
+  return await dao.findLastProductId();
 }
 
 export async function getProductsInCart(id) {

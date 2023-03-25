@@ -1,9 +1,9 @@
 import CartsRepository from "../persistence/repository/carts.repository.js";
 
-const CartsRepository = new CartsRepository();
+const cartsRepository = new CartsRepository();
 
 export async function getProductsInCart(id) {
-  const productsInCart = await CartsRepository.getProductsInCart(id);
+  const productsInCart = await cartsRepository.getProductsInCart(id);
   return products;
 }
 
@@ -15,7 +15,7 @@ export async function createCart(
   products,
   closed
 ) {
-  await CartsRepository.createCart(
+  await cartsRepository.createCart(
     id,
     timestamp,
     username,
@@ -26,7 +26,7 @@ export async function createCart(
 }
 
 export async function addProductsToCart(id, products) {
-  const productAddedToCart = await CartsRepository.addProductsToCart(
+  const productAddedToCart = await cartsRepository.addProductsToCart(
     id,
     products
   );
@@ -42,7 +42,7 @@ export async function modifiedStockProductById(
   value,
   stock
 ) {
-  const productUpdatedInCart = await CartsRepository.updateProductById(
+  const productUpdatedInCart = await cartsRepository.updateProductById(
     id,
     title,
     description,
@@ -55,11 +55,11 @@ export async function modifiedStockProductById(
 }
 
 export async function deleteCartById(id) {
-  await CartsRepository.deleteCartById(id);
+  await cartsRepository.deleteCartById(id);
 }
 
 export async function findProductInCart(cart, productId) {
-  const productExists = await CartsRepository.findProductInCart(
+  const productExists = await cartsRepository.findProductInCart(
     cart,
     productId
   );
@@ -67,11 +67,11 @@ export async function findProductInCart(cart, productId) {
 }
 
 export async function finishOrder(cart) {
-  const finishCart = await CartsRepository.finishOrder(cart);
+  const finishCart = await cartsRepository.finishOrder(cart);
   return finishCart;
 }
 
 export async function findLastCartId() {
-  let lastId = await CartsRepository.findLastProductId();
+  let lastId = await cartsRepository.findLastProductId();
   return lastId;
 }
