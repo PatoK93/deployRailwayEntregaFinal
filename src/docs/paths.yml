@@ -1,116 +1,527 @@
 paths:
-  /news:
+  /api/producto:
     post:
       tags:
-        - News
-      summary: Registro de noticia nueva en base de datos.
-      parameters:
+        - Producto
+      summary: Agregar producto
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/parameters/schemas/BodyNewPost"
+              $ref: "#/components/parameters/schemas/BodyProductPost"
         required: true
       responses:
-        200:
-          description: Se registró la noticia correctamente.
+        201:
+          description: Se agrego el producto correctamente.
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/New"
+                $ref: "#/components/schema/Products/ProductDto"
         500:
           description: error del servidor.
-          $ref: "#/components/schema/News/NotFound"
-    get:
-      tags:
-        - News
-      summary: Lista de noticias en base de datos
-      responses:
-        200:
-          description: Lista de noticias
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/getAllNews"
+                $ref: "#/components/schema/Products/NotFound"
+        403:
+          description: sin permisos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/Forbidden"
+    get:
+      tags:
+        - Producto
+      summary: Listar los productos
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/getAllProducts"
         500:
           description: error de servidor
-          $ref: "#/components/schema/News/NotFound"
-  /news/{id}:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/producto/{id}:
     get:
       tags:
-        - News
-      summary: Listar noticias por id
+        - Producto
+      summary: Listar productos por id
       parameters:
         - in: path
           name: id
           required: true
-          description: string id
+          description: id del producto
           schema:
-            type: string
+            type: int
       responses:
         200:
-          description: noticia encontrada
+          description: producto encontrado
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/New"
+                $ref: "#/components/schema/Products/Product"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
         404:
-          description: no se encuentra noticia con este id
+          description: no se encontro producto con este id
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/errorGetById"
+                $ref: "#/components/schema/Products/errorGetProductById"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
     put:
       tags:
-        - News
-      summary: Editar noticia
+        - Producto
+      summary: Editar producto
       parameters:
         - in: path
           name: id
           required: true
-          description: string id required
+          description: int id required
           schema:
-            type: string
+            type: int
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/parameters/schemas/BodyNewPost"
+              $ref: "#/components/parameters/schemas/BodyNewProduct"
         required: true
       responses:
         200:
-          description: Noticia actualizada
+          description: producto modificado
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/New"
+                $ref: "#/components/schema/Products/Product"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
         404:
-          description: No se encuentra noticia con id {id}
+          description: no se encontro producto con este id
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/errorGetById"
+                $ref: "#/components/schema/Products/errorGetProductById"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
     delete:
       tags:
-        - News
-      summary: Eliminar noticia por id
+        - Producto
+      summary: Eliminar producto por id
       parameters:
         - in: path
           name: id
           required: true
-          description: string id required
+          description: int id required
+          schema:
+            type: int
+      responses:
+        200:
+          description: producto eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/deleteProductById"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
+        403:
+          description: sin permisos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/Forbidden"
+        404:
+          description: no se encontro producto con este id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/errorGetProductById"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/producto/categoria/{categoria}:
+    get:
+      tags:
+        - Producto
+      summary: Listar productos por categoria
+      parameters:
+        - in: path
+          name: categoria
+          required: true
+          description: categoria del producto
           schema:
             type: string
       responses:
         200:
-          description: noticia eliminada
+          description: producto encontrado
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/deleteById"
+                $ref: "#/components/schema/Products/Product"
+        400:
+          description: categoría inválida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
         404:
-          description: No se encuentra noticia con id {id}
+          description: no se encontro producto con esta categoría
           content:
             application/json:
               schema:
-                $ref: "#/components/schema/News/errorGetById"
+                $ref: "#/components/schema/Products/errorGetProductByCategorie"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/carrito:
+    post:
+      tags:
+        - Carrito
+      summary: Agregar carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/BodyCartPost"
+        required: true
+      responses:
+        201:
+          description: Se agrego el carrito correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/CartAdded"
+        500:
+          description: error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/carrito/{id}:
+    delete:
+      tags:
+        - Carrito
+      summary: Eliminar carrito por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: int id required
+          schema:
+            type: int
+      responses:
+        200:
+          description: carrito eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/deleteCartById"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
+        403:
+          description: sin permisos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/Forbidden"
+        404:
+          description: no se encontro carrito con este id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/errorGetProductById"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/carrito/{id}/productos:
+    get:
+      tags:
+        - Carrito
+      summary: Listar los productos en el carrito elegido
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: int id required
+          schema:
+            type: int
+      responses:
+        200:
+          description: Lista de productos en el carrito elegido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/getProductsInCart"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
+        403:
+          description: sin permisos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/Forbidden"
+        404:
+          description: no se encontro carrito con este id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/errorGetCartById"
+    post:
+      tags:
+        - Carrito
+      summary: Agregar producto al carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/BodyProductToCartPost"
+        required: true
+      responses:
+        201:
+          description: Se agrego el producto correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/ProductAddedToCartSuccess"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
+        403:
+          description: sin permisos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/Forbidden"
+        404:
+          description: no se encontro carrito con este id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/errorGetCartById"
+        500:
+          description: error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/carrito/{id}/productos/{id_prod}:
+    delete:
+      tags:
+        - Carrito
+      summary: Eliminar producto del carrito por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: int id required
+          schema:
+            type: int
+        - in: path
+          name: id_prod
+          required: true
+          description: int id required
+          schema:
+            type: int
+      responses:
+        200:
+          description: carrito eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/ProductDeletedFromCartSuccess"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
+        403:
+          description: sin permisos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/Forbidden"
+        404:
+          description: no se encontro carrito con este id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/errorGetCartById"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/carrito/buy/{id}:
+    get:
+      tags:
+        - Carrito
+      summary: Finalizar compra
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: int id required
+          schema:
+            type: int
+      responses:
+        200:
+          description: Lista de productos en el carrito elegido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/CompletOrder"
+        400:
+          description: id inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequest"
+        403:
+          description: sin permisos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/Forbidden"
+        404:
+          description: no se encontro carrito con este id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/errorGetCartById"
+        500:
+          description: error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+  /api/usuario/signup:
+    post:
+      tags:
+        - Usuario
+      summary: Registrar Usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/BodyUserPost"
+        required: true
+      responses:
+        200:
+          description: Se registro al usuario correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Users/UserSuccess"
+        500:
+          description: error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+        401:
+          description: usuario existente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Users/UserExists"
+  /api/usuario/login:
+    post:
+      tags:
+        - Usuario
+      summary: Login Usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/BodyUserLoginPost"
+        required: true
+      responses:
+        200:
+          description: Ingreso exitoso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Users/UserLogin"
+        500:
+          description: error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"
+        401:
+          description: usuario no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Users/UserDontExists"
+    /api/usuario/logout:
+    get:
+      tags:
+        - Usuario
+      summary: Logout Usuario
+      responses:
+        200:
+          description: Deslogueo exitoso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Users/UserLogout"
+        500:
+          description: error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFound"

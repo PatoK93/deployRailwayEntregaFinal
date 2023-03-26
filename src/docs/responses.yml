@@ -1,64 +1,152 @@
 components:
   schema:
-    News:
-      New:
+    Products:
+      Product:
         type: object
         properties:
-          id:
-            type: string
-            description: Id de la noticia
           title:
             type: string
-            description: Titulo de la noticia
-          body:
+            description: Nombre del producto.
+          description:
             type: string
-            description: Cuerpo de la noticia
-          author:
+            description: Descripción del producto.
+          code:
             type: string
-            description: Autor de la noticia
-          image:
+            description: Código del producto.
+          photo:
             type: string
-            description: Imagen de la noticia
-          date:
-            type: date
-            description: Fecha de publicación de la noticia
+            description: Link de imagen del producto.
+          value:
+            type: decimal
+            description: Valor del producto.
+          stock:
+            type: int
+            description: Stock del producto.
         example:
-          id: f65sd4f56s4df564sdf
-          title: Boca campeón
-          body: fsdfsdfsdjfsdhfkjsdf df sdf sd
-          author:  Gonzalo Almiron
-          image: http://sdfsdfdsf.com
-          date: 22-02-2023
-      getAllNews:
+          title: Auto Alfa Romeo
+          description: Auto Alfa Romeo Rojo
+          code: Auto
+          photo: https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_12aa5deef3794cc4ad0dfcd88426ef17.jpg
+          value: 60000
+          stock: 100
+      ProductDto:
+        type: object
+        properties:
+          title:
+            type: string
+            description: Nombre del producto.
+          description:
+            type: string
+            description: Descripción del producto.
+          value:
+            type: decimal
+            description: Valor del producto.
+        example:
+          title: Auto Alfa Romeo
+          description: Auto Alfa Romeo Rojo
+          value: 60000
+      getAllProducts:
         type: array
         items:
           properties:
-            id:
-              type: string
-              example: 65g4d65g456df4g65df4g56f4
             title:
               type: string
-              example: ¡River campeón!
-            body:
+              example: Auto Alfa Romeo
+            description:
               type: string
-              example: hfkjsdh
-            author:
-              type: string
-              example: Juan Gomez
-            image:
-              type: string
-              example: Imagen de la noticia
-      errorGetById:
+              example: Auto Alfa Romeo Rojo
+            value:
+              type: decimal
+              example: 60000
+      errorGetProductById:
         type: object
         properties:
           message:
             type: string
-            description: No se encontro el id
+            description: No se encontró el id
+      errorGetProductByCategorie:
+        type: object
+        properties:
+          message:
+            type: string
+            description: No se encontró la categoría
         example:
-          message: No se encontró el id 6d5fg465df4g6f4dg5646
+          message: No se encontró el id en 1234
       NotFound:
         type: string
         description: error en el servidor
-      deleteById:
+      deleteProductById:
         type: string
-        description: noticia eliminada
+        description: producto eliminado con éxito
+      Forbidden:
+        type: string
+        description: No tiene permisos de acceso!
+      BadRquest:
+        type: string
+        description: Tiene que enviar un parámetro válido!
+      ProductWitoutSotck:
+        type: string
+        description: Producto sin stock!
+    Carts:
+      CartAdedd:
+        type: string
+        description: Carrito creado con éxito.
+      deleteCartById:
+        type: string
+        description: Carito eliminado con éxito.
+      FinishedOrder:
+        type: string
+        description: ya se realizo la compra, no se puede eliminar este carrito!
+      errorGetCartById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: No se encontró el id
+      getProductsInCart:
+        type: object
+        items:
+          properties:
+            id:
+              type: int
+              example: Auto Alfa Romeo
+            timestamp:
+              type: string
+              example: Auto Alfa Romeo Rojo
+            username:
+              type: string
+              example: test@test.com
+            name:
+              type: string
+              example: Juan Sanchez
+            products:
+              type: decimal
+              example: productos en el carrito (array)
+            closed:
+              type: boolean
+              example: false
+      ProductAddedToCartSuccess:
+        type: string
+        description: producto agregado al carrito con éxito
+      ProductDeletedFromCartSuccess:
+        type: string
+        description: producto eliminado del carrito con éxito
+      CompletOrder:
+        type: string
+        description: se realizo la compra con éxito
+    Users:
+      UserExists:
+        type: string
+        description: el usuario ya existe!
+      UserSuccess:
+        type: string
+        description: usuario creado con éxito!
+      UserLogin:
+        type: string
+        description: usuario logueado exitosamente!
+      UserDontExists:
+        type: string
+        description: usuario no encontrado!
+      UserLogout:
+        type: string
+        description: usuario deslogueado!

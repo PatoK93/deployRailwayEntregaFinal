@@ -1,29 +1,108 @@
 components:
   parameters:
     schemas:
-      BodyNewPost: 
+      BodyProductPost:
         type: object
         required:
           - title
-          - body
-          - author
-          - image
+          - description
+          - code
+          - photo
+          - value
+          - stock
         properties:
           title:
             type: string
-            description: Título de la noticia.
-          body:
+            description: Nombre del producto.
+          description:
             type: string
-            description: Cuerpo de la noticia.
-          author:
+            description: Descripción del producto.
+          code:
             type: string
-            description: Autor de la noticia.
-          image:
+            description: Código del producto.
+          photo:
             type: string
-            description: Imagen de la noticia.
+            description: Link de imagen del producto.
+          value:
+            type: decimal
+            description: Valor del producto.
+          stock:
+            type: int
+            description: Stock del producto.
         example:
-          title: ¡Argentina Campeón del mundo!
-          body: Argentina se consagró campeón del mundo tras vencer por penales a Francia.
-          author: Gonzalo Bonadeo
-          image: http://dfsdfs.com/fsdf.jpg
-
+          title: Auto Alfa Romeo
+          description: Auto Alfa Romeo Rojo
+          code: Auto
+          photo: https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_12aa5deef3794cc4ad0dfcd88426ef17.jpg
+          value: 60000
+          stock: 100
+      BodyProductToCartPost:
+        type: string
+        required:
+          - id
+        properties:
+          id:
+            type: int
+            description: id del producto.
+        example:
+          id: 1234
+      BodyUserPost:
+        type: object
+        required:
+          - username
+          - password
+          - name
+          - adress
+          - age
+          - phone
+          - picture
+          - admin
+        properties:
+          username:
+            type: string
+            description: Dirección de email.
+          password:
+            type: string
+            description: Contraseña.
+          name:
+            type: string
+            description: Nombre y Apellido.
+          adress:
+            type: string
+            description: Dirección.
+          age:
+            type: string
+            description: Edad.
+          phone:
+            type: string
+            description: Teléfono.
+          picture:
+            type: string
+            description: Foto.
+          admin:
+            type: boolean
+            description: Es o no Administrador.
+        example:
+          username: jsanchez@gmail.com
+          password: daojkowode
+          name: Juan Sanchez
+          adress: Calle falsa 123
+          age: 30
+          phone: +541112345678
+          picture: https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png
+          admin: false
+      BodyUserLoginPost:
+        type: object
+        required:
+          - username
+          - password
+        properties:
+          username:
+            type: string
+            description: Dirección de email.
+          password:
+            type: string
+            description: Contraseña.
+        example:
+          username: jsanchez@gmail.com
+          password: daojkowode
